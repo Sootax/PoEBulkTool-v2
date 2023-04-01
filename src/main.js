@@ -9,18 +9,47 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 886,
+    height: 653,
+    show: false,
+    icon: path.resolve(__dirname, '/icon.ico'),
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
-  // and load the index.html of the app.
+
+  // Create the loading window.
+  const loadingWindow = new BrowserWindow({
+    maxWidth: 450,
+    maxHeight: 300,
+    icon: path.resolve(__dirname, '/icon.ico'),
+    frame: false,
+    alwaysOnTop: true,
+  })
+
+  // Load the loadingScreen.html for the loadingWindow.
+  loadingWindow.loadFile('./src/loadingScreen.html');
+
+  // Center the loadingWindow.
+  loadingWindow.center();
+
+  // Load the index.html of the mainWindow
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  // Removes the menu from the mainWindow.
+  mainWindow.setMenu(null);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  // Waits for the mainWindow to be loaded and closes the loadingWindow.
+  mainWindow.once('ready-to-show', () => {
+    loadingWindow.close();
+    mainWindow.show();
+  });
+
+  return mainWindow;
 };
 
 // This method will be called when Electron has finished
