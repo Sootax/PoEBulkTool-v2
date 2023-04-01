@@ -19,10 +19,12 @@ module.exports = {
       config: {},
     },
   ],
+  buildIdentifier: 'my-build',
   plugins: [
     {
       name: '@electron-forge/plugin-webpack',
       config: {
+        devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
         mainConfig: './webpack.main.config.js',
         renderer: {
           config: './webpack.renderer.config.js',
