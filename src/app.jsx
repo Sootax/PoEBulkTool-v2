@@ -3,13 +3,13 @@ import ReactDOM from "react-dom/client";
 
 import "./app.css";
 
-// import Tabs from "./components/tabs/tabs";
+import Tabs from "Components/tabs/tabs.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 function App() {
-  return <div>Hello from react!</div>
-}
+  return <Tabs />;
+};
 
 root.render(
   <React.StrictMode>
