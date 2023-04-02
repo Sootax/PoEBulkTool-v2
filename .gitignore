@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# Configuration file
+src/userConfig.json

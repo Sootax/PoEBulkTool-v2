@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -12,12 +13,11 @@ const createWindow = () => {
     width: 886,
     height: 653,
     show: false,
-    icon: path.resolve(__dirname, '/icon.ico'),
+    icon: __dirname + '/icon.ico',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
-
 
   // Create the loading window.
   const loadingWindow = new BrowserWindow({
@@ -26,7 +26,7 @@ const createWindow = () => {
     icon: path.resolve(__dirname, '/icon.ico'),
     frame: false,
     alwaysOnTop: true,
-  })
+  });
 
   // Load the loadingScreen.html for the loadingWindow.
   loadingWindow.loadFile('./src/loadingScreen.html');
@@ -76,3 +76,42 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+import fetchStash from 'Functions/fetchStash.js';
+import fetchPoeNinjaPrices from 'Functions/fetchPoeNinjaPrices.js';
+import fetchTftPrices from 'Functions/fetchTftPrices.js';
+import generateNewTableData from 'Functions/generateNewTableData';
+
+ipcMain.on('readConfig', (event, data) => {
+  try {
+    event.reply(
+      'configData',
+      JSON.parse(fs.readFileSync('./src/userConfig.json', 'utf-8'))
+    );
+  } catch (err) {
+    if (err.code == 'ENOENT') {
+      fs.writeFileSync('./src/userConfig.json', JSON.stringify({}, null, 4));
+    }
+  }
+});
+
+ipcMain.on('writeConfig', (event, data) => {
+  const jsonData = JSON.stringify(data, null, 4);
+  fs.writeFileSync('./src/userConfig.json', jsonData, 'utf-8');
+  event.reply(
+    'configData',
+    JSON.parse(fs.readFileSync('./src/userConfig.json', 'utf-8'))
+  );
+});
+
+ipcMain.on('fetchStash', async (event) => {
+  // const config = JSON.parse(fs.readFileSync('./src/userConfig.json', 'utf-8'))
+  // const stashItems = await fetchStash(config)
+  // const poeNinjaItemPrices = await fetchPoeNinjaPrices(config.leagueName)
+  // const tftItemPrices = await fetchTftPrices()
+  // const poeNinjaPrices = JSON.parse(fs.readFileSync('./poePrices.json', 'utf-8'))
+  // const stashItems = JSON.parse(fs.readFileSync('./stashData.json', 'utf-8'))
+  // const tftPricesCompasses = JSON.parse(fs.readFileSync('./poeTftPricescompasses.json', 'utf-8'))
+  // const tftPricesExpedition = JSON.parse(fs.readFileSync('./poeTftPricesexpedition.json', 'utf-8'))
+  // const tftPricesHeist = JSON.parse(fs.readFileSync('./poeTftPricesheist.json', 'utf-8'))
+  // const newTables = generateNewTableData(stashItems, tftPricesCompasses, tftPricesExpedition, tftPricesHeist)
+});
