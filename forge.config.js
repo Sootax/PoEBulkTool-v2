@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = {
   packagerConfig: {},
   rebuildConfig: {},
@@ -18,6 +20,19 @@ module.exports = {
       name: '@electron-forge/maker-rpm',
       config: {},
     },
+  ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'Sootax',
+          name: 'PoEBulkTool-v2'
+        },
+        authToken: process.env.GITHUB_TOKEN,
+        prerelease: true
+      }
+    }
   ],
   buildIdentifier: 'my-build',
   plugins: [
