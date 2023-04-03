@@ -1,38 +1,52 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./settingsTab.css";
+import React, { useState, useEffect, useRef } from 'react';
+import './settingsTab.css';
 
 function SettingsTab() {
   // References for config inputs.
-  const leagueName = useRef(null);
   const accountName = useRef(null);
+  const characterName = useRef(null);
   const sessionId = useRef(null);
-  const tabs = useRef(null);
-  const tabIndex = useRef(null);
+  const leagueName = useRef(null);
+  const expeditionTab = useRef(null);
+  const heistTab = useRef(null);
+  const compassTab = useRef(null);
+  const logFile = useRef(null);
 
   // Use state for easily changing config.
-  const [config, setConfig] = useState({});
+  const [config, setConfig] = useState({
+    accountName: '',
+    characterName: '',
+    sessionId: '',
+    leagueName: '',
+    expeditionTab: '',
+    heistTab: '',
+    compassTab: '',
+    logfile: '',
+  });
 
   // Reads the config.
   useEffect(() => {
-    window.api.send("readConfig", null);
-    window.api.receive("configData", (currentConfig) => {
+    window.api.send('readConfig')
+    window.api.receive('configData', (currentConfig) => {
       setConfig(currentConfig);
-      console.log(currentConfig);
     });
   }, []);
 
   // Writes and reads the config.
   const writeConfig = () => {
     const userConfig = {
-      sessionId: sessionId.current.value,
       accountName: accountName.current.value,
+      characterName: characterName.current.value,
+      sessionId: sessionId.current.value,
       leagueName: leagueName.current.value,
-      tabIndex: tabIndex.current.value,
-      tabs: tabs.current.value,
-    };
-    window.api.send("writeConfig", userConfig);
-    window.api.receive("configData", (newConfig) => {
-      setConfig(newConfig);
+      logFile: logFile.current.value,
+      expeditionTab: expeditionTab.current.value,
+      heistTab: heistTab.current.value,
+      compassTab: compassTab.current.value,
+    }
+    window.api.send('writeConfig', userConfig);
+    window.api.receive('configData', (newUserConfig) => {
+      setConfig(newUserConfig);
     });
   };
 
@@ -43,58 +57,84 @@ function SettingsTab() {
 
   return (
     <div className="tab-content">
-      <div className="top-container-settings">
-        <div className="default-option-container">
-          <div>Session ID</div>
-          <input
-            className="default-input"
-            defaultValue={config.sessionId}
-            ref={sessionId}
-            onClick={selectValues}
-          />
+      <div className="settings-container">
+        <div className="settings-container-top">
+          <div className="settings-left-container">
+            <div className="sub-settings-container">
+              <label className="main-label">General</label>
+              <label className="sub-label">Account Name</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.accountName}
+                className="default-input"
+                ref={accountName}
+              />
+              <label className="sub-label">Character Name</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.characterName}
+                className="default-input"
+                ref={characterName}
+              />
+              <label className="sub-label">Session ID</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.sessionId}
+                className="default-input"
+                ref={sessionId}
+              />
+              <label className="sub-label">League Name</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.leagueName}
+                className="default-input"
+                ref={leagueName}
+              />
+              <label className="sub-label">Logfile Location</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.logFile}
+                className="default-input"
+                ref={logFile}
+              />
+            </div>
+          </div>
+          <div className="settings-right-container">
+            <div className="sub-settings-container">
+              <label className="main-label">Expedition</label>
+              <label className="sub-label">Tab Index</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.expeditionTab}
+                className="default-input"
+                ref={expeditionTab}
+              />
+            </div>
+            <div className="sub-settings-container">
+              <label className="main-label">Heist</label>
+              <label className="sub-label">Tab Index</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.heistTab}
+                className="default-input"
+                ref={heistTab}
+              />
+            </div>
+            <div className="sub-settings-container">
+              <label className="main-label">Compasses</label>
+              <label className="sub-label">Tab Index</label>
+              <input
+                onClick={selectValues}
+                defaultValue={config.compassTab}
+                className="default-input"
+                ref={compassTab}
+              />
+            </div>
+          </div>
         </div>
-        <div className="default-option-container">
-          <div>Account Name</div>
-          <input
-            className="default-input"
-            defaultValue={config.accountName}
-            ref={accountName}
-            spellCheck="false"
-            onClick={selectValues}
-          />
+        <div className="settings-container-bottom">
+          <button className="default-button" onClick={writeConfig}>Save</button>
         </div>
-        <div className="default-option-container">
-          <div>League Name</div>
-          <input
-            className="default-input"
-            defaultValue={config.leagueName}
-            ref={leagueName}
-            onClick={selectValues}
-          />
-        </div>
-        <div className="default-option-container">
-          <div>Tabs</div>
-          <input
-            className="default-input"
-            defaultValue={config.tabs}
-            ref={tabs}
-            onClick={selectValues}
-          />
-        </div>
-        <div className="default-option-container">
-          <div>TabIndex</div>
-          <input
-            className="default-input"
-            defaultValue={config.tabIndex}
-            ref={tabIndex}
-            onClick={selectValues}
-          />
-        </div>
-      </div>
-      <div className="bottom-container-settings">
-        <button id="save" className="default-button" onClick={writeConfig}>
-          Save
-        </button>
       </div>
     </div>
   );

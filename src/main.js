@@ -81,25 +81,25 @@ import fetchPoeNinjaPrices from 'Functions/fetchPoeNinjaPrices.js';
 import fetchTftPrices from 'Functions/fetchTftPrices.js';
 import generateNewTableData from 'Functions/generateNewTableData';
 
-ipcMain.on('readConfig', (event, data) => {
+ipcMain.on('readConfig', (event) => {
   try {
     event.reply(
       'configData',
-      JSON.parse(fs.readFileSync('./src/userConfig.json', 'utf-8'))
+      JSON.parse(fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8'))
     );
   } catch (err) {
     if (err.code == 'ENOENT') {
-      fs.writeFileSync('./src/userConfig.json', JSON.stringify({}, null, 4));
+      fs.writeFileSync(path.resolve(__dirname, 'userConfig.json'), JSON.stringify({}, null, 4));
     }
   }
 });
 
 ipcMain.on('writeConfig', (event, data) => {
   const jsonData = JSON.stringify(data, null, 4);
-  fs.writeFileSync('./src/userConfig.json', jsonData, 'utf-8');
+  fs.writeFileSync(path.resolve(__dirname, 'userConfig.json'), jsonData, 'utf-8');
   event.reply(
     'configData',
-    JSON.parse(fs.readFileSync('./src/userConfig.json', 'utf-8'))
+    JSON.parse(fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8'))
   );
 });
 
