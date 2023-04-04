@@ -48,8 +48,10 @@ const createWindow = () => {
   // Removes the menu from the mainWindow.
   mainWindow.setMenu(null);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // Open the DevTools if in development.
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.webContents.openDevTools();
+  }
 
   // Waits for the mainWindow to be loaded and closes the loadingWindow.
   mainWindow.once('ready-to-show', () => {

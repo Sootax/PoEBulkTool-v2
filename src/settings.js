@@ -1,6 +1,12 @@
 const Store = require('electron-store');
+const path = require('path');
 
-const storage = new Store();
+const config = {
+  name: 'config',
+  fileExtension: 'json',
+  cwd: path.resolve(__dirname)
+}
+const storage = new Store(config);
 
 // Gets the saved bounds of the window and returns default bounds if it does not exist.
 function getBounds() {

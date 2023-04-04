@@ -24,11 +24,15 @@ function SettingsTab() {
     logfile: '',
   });
 
-  // Reads the config.
+  // Reads the config if it exists or creates a blank config if not.
   useEffect(() => {
     window.api.send('getConfig', 'renderer');
     window.api.receive('getConfig', (newConfig) => {
-      setConfig(newConfig);
+      if (newConfig) {
+        setConfig(newConfig)
+      } else {
+        window.api.send('setConfig', {renderer: config})
+      }
     });
   }, []);
 

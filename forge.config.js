@@ -1,4 +1,5 @@
 require('dotenv').config();
+const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   packagerConfig: {},
@@ -27,12 +28,12 @@ module.exports = {
       config: {
         repository: {
           owner: 'Sootax',
-          name: 'PoEBulkTool-v2'
+          name: 'PoEBulkTool-v2',
         },
         authToken: process.env.GITHUB_TOKEN,
-        prerelease: true
-      }
-    }
+        prerelease: true,
+      },
+    },
   ],
   buildIdentifier: 'my-build',
   plugins: [
@@ -40,7 +41,9 @@ module.exports = {
       name: '@electron-forge/plugin-webpack',
       config: {
         devContentSecurityPolicy: `default-src 'self' 'unsafe-inline' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline' data:`,
-        mainConfig: './webpack.main.config.js',
+        mainConfig: isDev
+          ? './webpack.main.dev.config.js'
+          : './webpack.main.prod.config.js',
         renderer: {
           config: './webpack.renderer.config.js',
           entryPoints: [
