@@ -1,7 +1,15 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { getBounds, saveBounds, getConfig, setConfig} = require('./settings.js');
+const {
+  getBounds,
+  saveBounds,
+  getConfig,
+  setConfig,
+} = require('./settings.js');
 const path = require('path');
 const fs = require('fs');
+require('update-electron-app')({
+  repo: 'https://github.com/Sootax/PoEBulkTool-v2',
+});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -59,7 +67,7 @@ const createWindow = () => {
     mainWindow.show();
   });
 
-  return mainWindow
+  return mainWindow;
 };
 
 // This method will be called when Electron has finished
@@ -94,26 +102,27 @@ import generateStashConfig from 'Functions/generateStashConfig';
 
 // Reads and sends the config back if exists, creates the config if not.
 ipcMain.on('getConfig', (event, configKey) => {
-  event.reply('getConfig', getConfig(configKey))
+  event.reply('getConfig', getConfig(configKey));
 });
 
 // Writes config with new data and returns the new config.
 ipcMain.on('setConfig', (event, configKey) => {
-  setConfig(configKey)
+  setConfig(configKey);
 });
-
 
 // Fetches the stash data based on active tab.
 ipcMain.on('fetchStash', async (event, data) => {
-  const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8'))
+  const config = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8')
+  );
   let tabIndex;
   if (data === 'Expedition') {
-    tabIndex = config.expeditionTab
+    tabIndex = config.expeditionTab;
   } else if (data === 'Heist') {
-    tabIndex = config.heistTab
+    tabIndex = config.heistTab;
   } else if (data === 'Compasses') {
-    tabIndex = config.compassTab
+    tabIndex = config.compassTab;
   }
-  const generatedConfig = generateStashConfig(config, tabIndex)
-  const stashData = await fetchStash(generatedConfig)
+  const generatedConfig = generateStashConfig(config, tabIndex);
+  const stashData = await fetchStash(generatedConfig);
 });

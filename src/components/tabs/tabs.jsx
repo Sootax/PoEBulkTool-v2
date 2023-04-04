@@ -6,7 +6,7 @@ import SettingsTab from "Components/settingsTab/settingsTab.jsx";
 import "./tabs.css";
 
 function Tabs() {
-  const [activeTab, setActiveTab] = useState("Settings");
+  const [activeTab, setActiveTab] = useState("Expedition");
   const contentTabs = [
     {
       name: "Expedition",
