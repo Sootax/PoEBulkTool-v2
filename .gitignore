@@ -93,3 +93,6 @@ out/
 
 # Configuration file
 src/userConfig.json
+
+# fetchData
+stashData.json

@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { getBounds, saveBounds, getConfig, setConfig} = require('./settings.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -8,16 +9,23 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
+  // Gets the bounds of the window.
+  const bounds = getBounds();
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 886,
-    height: 653,
+    width: bounds.width,
+    height: bounds.height,
+    x: bounds.x,
+    y: bounds.y,
     show: false,
     icon: __dirname + '/icon.ico',
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
+
+  mainWindow.on('close', () => saveBounds(mainWindow.getBounds()));
 
   // Create the loading window.
   const loadingWindow = new BrowserWindow({
@@ -49,7 +57,7 @@ const createWindow = () => {
     mainWindow.show();
   });
 
-  return mainWindow;
+  return mainWindow
 };
 
 // This method will be called when Electron has finished
@@ -80,38 +88,30 @@ import fetchStash from 'Functions/fetchStash.js';
 import fetchPoeNinjaPrices from 'Functions/fetchPoeNinjaPrices.js';
 import fetchTftPrices from 'Functions/fetchTftPrices.js';
 import generateNewTableData from 'Functions/generateNewTableData';
+import generateStashConfig from 'Functions/generateStashConfig';
 
-ipcMain.on('readConfig', (event) => {
-  try {
-    event.reply(
-      'configData',
-      JSON.parse(fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8'))
-    );
-  } catch (err) {
-    if (err.code == 'ENOENT') {
-      fs.writeFileSync(path.resolve(__dirname, 'userConfig.json'), JSON.stringify({}, null, 4));
-    }
+// Reads and sends the config back if exists, creates the config if not.
+ipcMain.on('getConfig', (event, configKey) => {
+  event.reply('getConfig', getConfig(configKey))
+});
+
+// Writes config with new data and returns the new config.
+ipcMain.on('setConfig', (event, configKey) => {
+  setConfig(configKey)
+});
+
+
+// Fetches the stash data based on active tab.
+ipcMain.on('fetchStash', async (event, data) => {
+  const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8'))
+  let tabIndex;
+  if (data === 'Expedition') {
+    tabIndex = config.expeditionTab
+  } else if (data === 'Heist') {
+    tabIndex = config.heistTab
+  } else if (data === 'Compasses') {
+    tabIndex = config.compassTab
   }
-});
-
-ipcMain.on('writeConfig', (event, data) => {
-  const jsonData = JSON.stringify(data, null, 4);
-  fs.writeFileSync(path.resolve(__dirname, 'userConfig.json'), jsonData, 'utf-8');
-  event.reply(
-    'configData',
-    JSON.parse(fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8'))
-  );
-});
-
-ipcMain.on('fetchStash', async (event) => {
-  // const config = JSON.parse(fs.readFileSync('./src/userConfig.json', 'utf-8'))
-  // const stashItems = await fetchStash(config)
-  // const poeNinjaItemPrices = await fetchPoeNinjaPrices(config.leagueName)
-  // const tftItemPrices = await fetchTftPrices()
-  // const poeNinjaPrices = JSON.parse(fs.readFileSync('./poePrices.json', 'utf-8'))
-  // const stashItems = JSON.parse(fs.readFileSync('./stashData.json', 'utf-8'))
-  // const tftPricesCompasses = JSON.parse(fs.readFileSync('./poeTftPricescompasses.json', 'utf-8'))
-  // const tftPricesExpedition = JSON.parse(fs.readFileSync('./poeTftPricesexpedition.json', 'utf-8'))
-  // const tftPricesHeist = JSON.parse(fs.readFileSync('./poeTftPricesheist.json', 'utf-8'))
-  // const newTables = generateNewTableData(stashItems, tftPricesCompasses, tftPricesExpedition, tftPricesHeist)
+  const generatedConfig = generateStashConfig(config, tabIndex)
+  const stashData = await fetchStash(generatedConfig)
 });

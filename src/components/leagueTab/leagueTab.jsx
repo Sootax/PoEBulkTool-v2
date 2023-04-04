@@ -3,12 +3,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import Table from 'Components/table/table.jsx';
 import UpdateButton from 'Utilities/UpdateButton.jsx';
 import FetchButton from 'Utilities/fetchButton.jsx';
-import lowestIlvl from 'Helpers/lowestIlvl';
 import checkHigherOrLower from 'Helpers/checkHigherOrLower.js';
 import cleanNewData from 'Helpers/cleanNewData.js';
 import './leagueTab.css';
 
-function LeagueTab() {
+function LeagueTab(params) {
   // Makes a reference of the input element container.
   const inputRef = useRef(null);
 
@@ -51,6 +50,7 @@ function LeagueTab() {
     childInputs[2].value = data.price;
   };
 
+  // Removes the animation when it ends.
   const animationEnd = () => {
     setAnimate({ index: 1, color: '' });
   };
@@ -112,9 +112,10 @@ function LeagueTab() {
     }
   };
 
-  const readConfig = () => {
-    window.api.send('fetchStash');
-    console.log('fetching stash');
+  // Fetches the stash
+  const fetchStash = () => {
+    const currentTab = params.activeTab
+    window.api.send('fetchStash', currentTab);
   };
 
   return (
@@ -145,7 +146,7 @@ function LeagueTab() {
           </div>
           <div className="button-container">
             <UpdateButton onUpdate={handleUpdate} />
-            <FetchButton onClick={readConfig} />
+            <FetchButton onClick={fetchStash} />
           </div>
         </div>
         <div className="right-container">Right Container</div>

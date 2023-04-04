@@ -26,27 +26,29 @@ function SettingsTab() {
 
   // Reads the config.
   useEffect(() => {
-    window.api.send('readConfig')
-    window.api.receive('configData', (currentConfig) => {
-      setConfig(currentConfig);
+    window.api.send('getConfig', 'renderer');
+    window.api.receive('getConfig', (newConfig) => {
+      setConfig(newConfig);
     });
   }, []);
 
   // Writes and reads the config.
   const writeConfig = () => {
-    const userConfig = {
-      accountName: accountName.current.value,
-      characterName: characterName.current.value,
-      sessionId: sessionId.current.value,
-      leagueName: leagueName.current.value,
-      logFile: logFile.current.value,
-      expeditionTab: expeditionTab.current.value,
-      heistTab: heistTab.current.value,
-      compassTab: compassTab.current.value,
-    }
-    window.api.send('writeConfig', userConfig);
-    window.api.receive('configData', (newUserConfig) => {
-      setConfig(newUserConfig);
+    const rendererConfig = {
+      renderer: {
+        accountName: accountName.current.value,
+        characterName: characterName.current.value,
+        sessionId: sessionId.current.value,
+        leagueName: leagueName.current.value,
+        logFile: logFile.current.value,
+        expeditionTab: expeditionTab.current.value,
+        heistTab: heistTab.current.value,
+        compassTab: compassTab.current.value,
+      },
+    };
+    window.api.send('setConfig', rendererConfig);
+    window.api.receive('getConfig', (newConfig) => {
+      setConfig(newConfig);
     });
   };
 
@@ -133,7 +135,9 @@ function SettingsTab() {
           </div>
         </div>
         <div className="settings-container-bottom">
-          <button className="default-button" onClick={writeConfig}>Save</button>
+          <button className="default-button" onClick={writeConfig}>
+            Save
+          </button>
         </div>
       </div>
     </div>

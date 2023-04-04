@@ -36,7 +36,7 @@ async function fetchStash({ sessionId, accountName, leagueName, tabs, tabIndex }
       return jsonData
     })
     .catch((error) => {
-      console.error(error);
+      console.error(error, 'test');
     });
   return stashItems
 }
