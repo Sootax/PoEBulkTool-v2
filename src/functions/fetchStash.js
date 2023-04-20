@@ -30,10 +30,8 @@ async function fetchStash({ sessionId, accountName, leagueName, tabs, tabIndex }
   })
     .then((response) => response.json())
     .then((data) => {
-      const jsonData = JSON.stringify(data, null, 4);
-      fs.writeFileSync("./stashData.json", jsonData, "utf-8");
-      console.log("Wrote stash data to json");
-      return jsonData
+      console.log('Received items from stash.')
+      return data
     })
     .catch((error) => {
       console.error(error, 'test');

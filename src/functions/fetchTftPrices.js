@@ -11,7 +11,7 @@ async function fetchTftPrices() {
       'https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-heist.json',
   };
 
-  let data = []
+  let data = {}
 
   for (const [category, url] of Object.entries(urls)) {
     let priceData = await fetch(url, {
@@ -19,14 +19,13 @@ async function fetchTftPrices() {
     })
       .then((response) => response.json())
       .then((data) => {
-        const jsonData = JSON.stringify(data, null, 4);
-        fs.writeFileSync(`./poeTftPrices${category}.json`, jsonData, "utf-8");
+        console.log(`Received prices from TFT ${category}`)
         return data;
       })
       .catch((error) => {
         console.error(error);
       });
-    data.push(priceData)
+    data[category] = priceData
   }
   return data
 }

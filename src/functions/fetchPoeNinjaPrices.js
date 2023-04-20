@@ -14,9 +14,8 @@ async function fetchPoeNinjaPrices(league) {
   })
     .then((response) => response.json())
     .then((data) => {
-      const jsonData = JSON.stringify(data, null, 4);
-      fs.writeFileSync("./poePrices.json", jsonData, "utf-8");
-      return jsonData
+      console.log('Received prices from poe.ninja')
+      return data
     })
     .catch((error) => {
       console.error(error);

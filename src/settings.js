@@ -4,7 +4,7 @@ const path = require('path');
 const config = {
   name: 'config',
   fileExtension: 'json',
-  cwd: path.resolve(__dirname)
+  cwd: './src'
 }
 const storage = new Store(config);
 

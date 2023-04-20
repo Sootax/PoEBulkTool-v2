@@ -97,8 +97,8 @@ app.on('activate', () => {
 import fetchStash from 'Functions/fetchStash.js';
 import fetchPoeNinjaPrices from 'Functions/fetchPoeNinjaPrices.js';
 import fetchTftPrices from 'Functions/fetchTftPrices.js';
-import generateNewTableData from 'Functions/generateNewTableData';
 import generateStashConfig from 'Functions/generateStashConfig';
+const {generateNewTableData} = require('Functions/generateNewTableData')
 
 // Reads and sends the config back if exists, creates the config if not.
 ipcMain.on('getConfig', (event, configKey) => {
@@ -112,9 +112,7 @@ ipcMain.on('setConfig', (event, configKey) => {
 
 // Fetches the stash data based on active tab.
 ipcMain.on('fetchStash', async (event, data) => {
-  const config = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, 'userConfig.json'), 'utf-8')
-  );
+  const config = getConfig('renderer')
   let tabIndex;
   if (data === 'Expedition') {
     tabIndex = config.expeditionTab;
@@ -125,4 +123,12 @@ ipcMain.on('fetchStash', async (event, data) => {
   }
   const generatedConfig = generateStashConfig(config, tabIndex);
   const stashData = await fetchStash(generatedConfig);
+  const poeNinjaPrices = await fetchPoeNinjaPrices(generatedConfig.leagueName)
+  const poeTftPrices = await fetchTftPrices()
+  
+  fs.writeFileSync('./src/json/poeNinjaPrices.json', JSON.stringify(poeNinjaPrices, null, 4))
+  fs.writeFileSync('./src/json/poeTftPrices.json', JSON.stringify(poeTftPrices, null, 4))
+  fs.writeFileSync('./src/json/stashData.json', JSON.stringify(stashData, null, 4))
+
+  // generateNewTableData(poeNinjaPrices, stashData, poeTftPrices)
 });

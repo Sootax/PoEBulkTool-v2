@@ -14,7 +14,8 @@ module.exports = {
   resolve: {
     alias: {
       Functions: path.resolve('src/functions'),
+      Json: path.resolve('src/json'),
     },
-    extensions: ['.js']
+    extensions: ['.js', '.json']
   }
 };
