@@ -9,7 +9,7 @@
     "package": "cross-env NODE_ENV=production electron-forge package",
     "make": "cross-env NODE_ENV=production electron-forge make",
     "publish": "cross-env NODE_ENV=production electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "npx prettier --write . --print-width 120"
   },
   "keywords": [],
   "author": {
@@ -34,6 +34,7 @@
     "dotenv": "^16.0.3",
     "electron": "23.2.1",
     "node-loader": "^2.0.0",
+    "prettier": "^2.8.7",
     "style-loader": "^3.3.2"
   },
   "dependencies": {

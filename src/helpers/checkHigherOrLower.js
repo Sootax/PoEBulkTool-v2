@@ -1,8 +1,6 @@
 function checkHigherOrLower(tableData, newTableData) {
   for (let item of tableData) {
-    const index = tableData.findIndex(
-      (item) => item.name === newTableData.name
-    );
+    const index = tableData.findIndex((item) => item.name === newTableData.name);
     if (item.name === newTableData.name) {
       const oldAmount = parseInt(item.amount.replace(/\D/g, ""));
       const oldPrice = parseInt(item.price.replace(/\D/g, ""));

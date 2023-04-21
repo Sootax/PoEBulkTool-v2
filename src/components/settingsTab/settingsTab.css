@@ -9,7 +9,8 @@
   gap: 10px;
 }
 
-.settings-left-container, .settings-right-container {
+.settings-left-container,
+.settings-right-container {
   width: 50%;
 }
 
@@ -61,4 +62,3 @@
   background: rgb(29, 29, 29);
   margin-bottom: 20px;
 }
-

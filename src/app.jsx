@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 function App() {
   return <Tabs />;
-};
+}
 
 root.render(
   <React.StrictMode>

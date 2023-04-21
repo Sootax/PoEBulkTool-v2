@@ -6,10 +6,7 @@ async function fetchStash({ sessionId, accountName, leagueName, tabs, tabIndex }
   console.log("fetching stash");
   const url = "https://www.pathofexile.com/character-window/get-stash-items?";
   const headers = new Headers([
-    [
-      "User-Agent",
-      "Oauth GrabMyStash/1.0.0 (contact: 3jeunami82lekw@gmail.com",
-    ],
+    ["User-Agent", "Oauth GrabMyStash/1.0.0 (contact: 3jeunami82lekw@gmail.com"],
     ["Cookie", `POESESSID=${sessionId}`],
     ["Content-Type", "multipart/form-data"],
   ]);
@@ -21,6 +18,8 @@ async function fetchStash({ sessionId, accountName, leagueName, tabs, tabIndex }
     ["tabIndex", tabIndex],
   ]);
 
+  console.log(tabs, tabIndex);
+
   const formData = new FormData([["scope", "account:stashes"]]);
 
   let stashItems = await fetch(url + params.toString(), {
@@ -30,13 +29,13 @@ async function fetchStash({ sessionId, accountName, leagueName, tabs, tabIndex }
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log('Received items from stash.')
-      return data
+      console.log("Received items from stash.");
+      return data;
     })
     .catch((error) => {
-      console.error(error, 'test');
+      console.error(error, "test");
     });
-  return stashItems
+  return stashItems;
 }
 
 export default fetchStash;

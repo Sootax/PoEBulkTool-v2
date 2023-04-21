@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
-import Table from 'Components/table/table.jsx';
-import UpdateButton from 'Utilities/UpdateButton.jsx';
-import FetchButton from 'Utilities/fetchButton.jsx';
-import checkHigherOrLower from 'Helpers/checkHigherOrLower.js';
-import cleanNewData from 'Helpers/cleanNewData.js';
-import './leagueTab.css';
+import Table from "Components/table/table.jsx";
+import UpdateButton from "Utilities/UpdateButton.jsx";
+import FetchButton from "Utilities/fetchButton.jsx";
+import checkHigherOrLower from "Helpers/checkHigherOrLower.js";
+import cleanNewData from "Helpers/cleanNewData.js";
+import "./leagueTab.css";
 
 function LeagueTab(params) {
   // Makes a reference of the input element container.
@@ -17,27 +17,27 @@ function LeagueTab(params) {
   // Temporary table data.
   const [tableData, setTableData] = useState([
     {
-      name: 'Order of the Chalice',
-      amount: '28x',
-      price: '25c',
+      name: "Order of the Chalice",
+      amount: "28x",
+      price: "25c",
       lowestIlvl: 81,
     },
     {
-      name: 'Black Scythe Mercenaries',
-      amount: '38x',
-      price: '55c',
+      name: "Black Scythe Mercenaries",
+      amount: "38x",
+      price: "55c",
       lowestIlvl: 82,
     },
     {
-      name: 'Druids of the Broken Circle',
-      amount: '22x',
-      price: '35c',
+      name: "Druids of the Broken Circle",
+      amount: "22x",
+      price: "35c",
       lowestIlvl: 83,
     },
     {
-      name: 'Knights of the Sun',
-      amount: '7x',
-      price: '75c',
+      name: "Knights of the Sun",
+      amount: "7x",
+      price: "75c",
       lowestIlvl: 83,
     },
   ]);
@@ -52,11 +52,11 @@ function LeagueTab(params) {
 
   // Removes the animation when it ends.
   const animationEnd = () => {
-    setAnimate({ index: 1, color: '' });
+    setAnimate({ index: 1, color: "" });
   };
 
   // Used in triggering animation for table rows.
-  const [animate, setAnimate] = useState({ index: 1, color: '' });
+  const [animate, setAnimate] = useState({ index: 1, color: "" });
 
   // Takes the new values from inputs and updates the table row.
   const handleUpdate = () => {
@@ -76,7 +76,7 @@ function LeagueTab(params) {
   };
 
   // Sets the networth to allow for easy updating.
-  const [networth, setNetworth] = useState('Networth: ERROR');
+  const [networth, setNetworth] = useState("Networth: ERROR");
 
   // Calculates the networth of the table items.
   useEffect(() => {
@@ -114,8 +114,8 @@ function LeagueTab(params) {
 
   // Fetches the stash
   const fetchStash = () => {
-    const currentTab = params.activeTab
-    window.api.send('fetchStash', currentTab);
+    const currentTab = params.activeTab;
+    window.api.send("fetchStash", currentTab);
   };
 
   return (
@@ -131,18 +131,8 @@ function LeagueTab(params) {
           />
           <div id="input-container" ref={inputRef}>
             <input id="input-name" placeholder="Name" disabled />
-            <input
-              id="input-amount"
-              placeholder="Amount"
-              onClick={selectValues}
-              onKeyPress={submitOnEnter}
-            />
-            <input
-              id="input-price"
-              placeholder="Price"
-              onClick={selectValues}
-              onKeyPress={submitOnEnter}
-            />
+            <input id="input-amount" placeholder="Amount" onClick={selectValues} onKeyPress={submitOnEnter} />
+            <input id="input-price" placeholder="Price" onClick={selectValues} onKeyPress={submitOnEnter} />
           </div>
           <div className="button-container">
             <UpdateButton onUpdate={handleUpdate} />

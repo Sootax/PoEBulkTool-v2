@@ -1,18 +1,13 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const {
-  getBounds,
-  saveBounds,
-  getConfig,
-  setConfig,
-} = require('./settings.js');
-const path = require('path');
-const fs = require('fs');
-require('update-electron-app')({
-  repo: 'https://github.com/Sootax/PoEBulkTool-v2',
+const { app, BrowserWindow, ipcMain } = require("electron");
+const { getBounds, saveBounds, getConfig, setConfig } = require("./settings.js");
+const path = require("path");
+const fs = require("fs");
+require("update-electron-app")({
+  repo: "https://github.com/Sootax/PoEBulkTool-v2",
 });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
@@ -27,25 +22,25 @@ const createWindow = () => {
     x: bounds.x,
     y: bounds.y,
     show: false,
-    icon: __dirname + '/icon.ico',
+    icon: __dirname + "/icon.ico",
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
 
-  mainWindow.on('close', () => saveBounds(mainWindow.getBounds()));
+  mainWindow.on("close", () => saveBounds(mainWindow.getBounds()));
 
   // Create the loading window.
   const loadingWindow = new BrowserWindow({
     maxWidth: 450,
     maxHeight: 300,
-    icon: path.resolve(__dirname, '/icon.ico'),
+    icon: path.resolve(__dirname, "/icon.ico"),
     frame: false,
     alwaysOnTop: true,
   });
 
   // Load the loadingScreen.html for the loadingWindow.
-  loadingWindow.loadFile('./src/loadingScreen.html');
+  loadingWindow.loadFile("./src/loadingScreen.html");
 
   // Center the loadingWindow.
   loadingWindow.center();
@@ -57,12 +52,12 @@ const createWindow = () => {
   mainWindow.setMenu(null);
 
   // Open the DevTools if in development.
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     mainWindow.webContents.openDevTools();
   }
 
   // Waits for the mainWindow to be loaded and closes the loadingWindow.
-  mainWindow.once('ready-to-show', () => {
+  mainWindow.once("ready-to-show", () => {
     loadingWindow.close();
     mainWindow.show();
   });
@@ -73,18 +68,18 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on("ready", createWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on('activate', () => {
+app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
@@ -94,41 +89,37 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-import fetchStash from 'Functions/fetchStash.js';
-import fetchPoeNinjaPrices from 'Functions/fetchPoeNinjaPrices.js';
-import fetchTftPrices from 'Functions/fetchTftPrices.js';
-import generateStashConfig from 'Functions/generateStashConfig';
-const {generateNewTableData} = require('Functions/generateNewTableData')
+import fetchStash from "Functions/fetchStash.js";
+import fetchPoeNinjaPrices from "Functions/fetchPoeNinjaPrices.js";
+import fetchTftPrices from "Functions/fetchTftPrices.js";
+import generateStashConfig from "Functions/generateStashConfig.js";
+import filterStash from "Functions/generateNewTableData.js";
 
 // Reads and sends the config back if exists, creates the config if not.
-ipcMain.on('getConfig', (event, configKey) => {
-  event.reply('getConfig', getConfig(configKey));
+ipcMain.on("getConfig", (event, configKey) => {
+  event.reply("getConfig", getConfig(configKey));
 });
 
 // Writes config with new data and returns the new config.
-ipcMain.on('setConfig', (event, configKey) => {
+ipcMain.on("setConfig", (event, configKey) => {
   setConfig(configKey);
 });
 
 // Fetches the stash data based on active tab.
-ipcMain.on('fetchStash', async (event, data) => {
-  const config = getConfig('renderer')
+ipcMain.on("fetchStash", async (event, data) => {
+  const config = getConfig("renderer");
   let tabIndex;
-  if (data === 'Expedition') {
+  if (data === "Expedition") {
     tabIndex = config.expeditionTab;
-  } else if (data === 'Heist') {
+  } else if (data === "Heist") {
     tabIndex = config.heistTab;
-  } else if (data === 'Compasses') {
+  } else if (data === "Compasses") {
     tabIndex = config.compassTab;
   }
   const generatedConfig = generateStashConfig(config, tabIndex);
   const stashData = await fetchStash(generatedConfig);
-  const poeNinjaPrices = await fetchPoeNinjaPrices(generatedConfig.leagueName)
-  const poeTftPrices = await fetchTftPrices()
+  const poeNinjaPrices = await fetchPoeNinjaPrices(generatedConfig.leagueName);
+  const tftPrices = await fetchTftPrices();
+  const finalItemArray = filterStash(stashData, tftPrices);
   
-  fs.writeFileSync('./src/json/poeNinjaPrices.json', JSON.stringify(poeNinjaPrices, null, 4))
-  fs.writeFileSync('./src/json/poeTftPrices.json', JSON.stringify(poeTftPrices, null, 4))
-  fs.writeFileSync('./src/json/stashData.json', JSON.stringify(stashData, null, 4))
-
-  // generateNewTableData(poeNinjaPrices, stashData, poeTftPrices)
 });

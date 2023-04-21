@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './settingsTab.css';
+import React, { useState, useEffect, useRef } from "react";
+import "./settingsTab.css";
 
 function SettingsTab() {
   // References for config inputs.
@@ -14,24 +14,24 @@ function SettingsTab() {
 
   // Use state for easily changing config.
   const [config, setConfig] = useState({
-    accountName: '',
-    characterName: '',
-    sessionId: '',
-    leagueName: '',
-    expeditionTab: '',
-    heistTab: '',
-    compassTab: '',
-    logfile: '',
+    accountName: "",
+    characterName: "",
+    sessionId: "",
+    leagueName: "",
+    expeditionTab: "",
+    heistTab: "",
+    compassTab: "",
+    logfile: "",
   });
 
   // Reads the config if it exists or creates a blank config if not.
   useEffect(() => {
-    window.api.send('getConfig', 'renderer');
-    window.api.receive('getConfig', (newConfig) => {
+    window.api.send("getConfig", "renderer");
+    window.api.receive("getConfig", (newConfig) => {
       if (newConfig) {
-        setConfig(newConfig)
+        setConfig(newConfig);
       } else {
-        window.api.send('setConfig', {renderer: config})
+        window.api.send("setConfig", { renderer: config });
       }
     });
   }, []);
@@ -50,8 +50,8 @@ function SettingsTab() {
         compassTab: compassTab.current.value,
       },
     };
-    window.api.send('setConfig', rendererConfig);
-    window.api.receive('getConfig', (newConfig) => {
+    window.api.send("setConfig", rendererConfig);
+    window.api.receive("getConfig", (newConfig) => {
       setConfig(newConfig);
     });
   };
@@ -83,12 +83,7 @@ function SettingsTab() {
                 ref={characterName}
               />
               <label className="sub-label">Session ID</label>
-              <input
-                onClick={selectValues}
-                defaultValue={config.sessionId}
-                className="default-input"
-                ref={sessionId}
-              />
+              <input onClick={selectValues} defaultValue={config.sessionId} className="default-input" ref={sessionId} />
               <label className="sub-label">League Name</label>
               <input
                 onClick={selectValues}
@@ -97,12 +92,7 @@ function SettingsTab() {
                 ref={leagueName}
               />
               <label className="sub-label">Logfile Location</label>
-              <input
-                onClick={selectValues}
-                defaultValue={config.logFile}
-                className="default-input"
-                ref={logFile}
-              />
+              <input onClick={selectValues} defaultValue={config.logFile} className="default-input" ref={logFile} />
             </div>
           </div>
           <div className="settings-right-container">
@@ -119,12 +109,7 @@ function SettingsTab() {
             <div className="sub-settings-container">
               <label className="main-label">Heist</label>
               <label className="sub-label">Tab Index</label>
-              <input
-                onClick={selectValues}
-                defaultValue={config.heistTab}
-                className="default-input"
-                ref={heistTab}
-              />
+              <input onClick={selectValues} defaultValue={config.heistTab} className="default-input" ref={heistTab} />
             </div>
             <div className="sub-settings-container">
               <label className="main-label">Compasses</label>

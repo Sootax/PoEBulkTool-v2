@@ -30,11 +30,7 @@ function Tabs() {
   };
   const tabsMap = contentTabs.map((tab, index) => {
     return (
-      <li
-        className={activeTab === tab.name ? "active" : ""}
-        onClick={handleTabChange}
-        key={index}
-      >
+      <li className={activeTab === tab.name ? "active" : ""} onClick={handleTabChange} key={index}>
         {tab.name}
       </li>
     );
