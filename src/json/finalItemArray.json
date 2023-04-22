@@ -1,0 +1,128 @@
+{
+    "heist": {
+        "contracts": [
+            {
+                "name": "Trap Disarmament",
+                "ilvl": 82,
+                "price": 1,
+                "amount": 2
+            },
+            {
+                "name": "Agility",
+                "ilvl": 82,
+                "price": 1,
+                "amount": 2
+            },
+            {
+                "name": "Perception",
+                "ilvl": 82,
+                "price": 3,
+                "amount": 4
+            },
+            {
+                "name": "Deception",
+                "ilvl": 82,
+                "price": 9,
+                "amount": 2
+            },
+            {
+                "name": "Lockpicking",
+                "ilvl": 82,
+                "price": 2,
+                "amount": 2
+            },
+            {
+                "name": "Demolition",
+                "ilvl": 82,
+                "price": 1,
+                "amount": 3
+            },
+            {
+                "name": "Engineering",
+                "ilvl": 82,
+                "price": 1,
+                "amount": 2
+            },
+            {
+                "name": "Brute Force",
+                "ilvl": 82,
+                "price": 1,
+                "amount": 1
+            }
+        ],
+        "blueprints": [
+            {
+                "name": "Trinkets or Currency",
+                "ilvl": 83,
+                "price": 5,
+                "amount": 1
+            },
+            {
+                "name": "Replicas or Experimented Items",
+                "ilvl": 83,
+                "price": 15,
+                "amount": 1
+            }
+        ],
+        "currency": [
+            {
+                "name": "Rogue's Markers",
+                "ilvl": 0,
+                "price": 31,
+                "amount": 142130
+            }
+        ]
+    },
+    "expedition": {
+        "logbooks": [
+            {
+                "name": "Order of the Chalice",
+                "ilvl": 83,
+                "price": 15,
+                "amount": 9
+            },
+            {
+                "name": "Druids of the Broken Circle",
+                "ilvl": 83,
+                "price": 10,
+                "amount": 10
+            }
+        ],
+        "currency": [
+            {
+                "name": "Scrap Metal",
+                "ilvl": 0,
+                "price": 1,
+                "amount": 182
+            },
+            {
+                "name": "Astragali",
+                "ilvl": 0,
+                "price": 1,
+                "amount": 21
+            }
+        ]
+    },
+    "compasses": {
+        "compasses": [
+            {
+                "name": "Unidentified Map",
+                "ilvl": 20,
+                "price": 4,
+                "amount": 1
+            },
+            {
+                "name": "Blue Plants",
+                "ilvl": 20,
+                "price": 50,
+                "amount": 1
+            },
+            {
+                "name": "Magic Pack Size",
+                "ilvl": 20,
+                "price": 5,
+                "amount": 2
+            }
+        ]
+    }
+}

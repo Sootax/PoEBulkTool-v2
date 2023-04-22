@@ -1,46 +1,31 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 
-import Table from "Components/table/table.jsx";
-import UpdateButton from "Utilities/UpdateButton.jsx";
-import FetchButton from "Utilities/fetchButton.jsx";
-import checkHigherOrLower from "Helpers/checkHigherOrLower.js";
-import cleanNewData from "Helpers/cleanNewData.js";
-import "./leagueTab.css";
+import Table from 'Components/table/table.jsx';
+import UpdateButton from 'Utilities/UpdateButton.jsx';
+import FetchButton from 'Utilities/fetchButton.jsx';
+import finalItemArray from 'Json/finalItemArray.json';
+import calculateNetWorth from 'Functions/calculateNetWorth.js'
+import concatTableData from 'Functions/concatTableData.js';
+import checkHigherOrLower from 'Functions/checkHigherOrLower.js';
+import './leagueTab.css';
 
-function LeagueTab(params) {
+function LeagueTab(props) {
+  // Temporary Divine Orb price.
+  const [divinePrice, setDivinePrice] = useState(180);
+  const [tableData, setTableData] = useState(concatTableData(finalItemArray[props.activeTab.toLowerCase()]))
+  const [networth, setNetworth] = useState(calculateNetWorth(finalItemArray, divinePrice))
+  
   // Makes a reference of the input element container.
   const inputRef = useRef(null);
 
-  // Temporary Divine Orb price.
-  const [divineOrbPrice, setDivineOrbPrice] = useState(195);
-
-  // Temporary table data.
-  const [tableData, setTableData] = useState([
-    {
-      name: "Order of the Chalice",
-      amount: "28x",
-      price: "25c",
-      lowestIlvl: 81,
-    },
-    {
-      name: "Black Scythe Mercenaries",
-      amount: "38x",
-      price: "55c",
-      lowestIlvl: 82,
-    },
-    {
-      name: "Druids of the Broken Circle",
-      amount: "22x",
-      price: "35c",
-      lowestIlvl: 83,
-    },
-    {
-      name: "Knights of the Sun",
-      amount: "7x",
-      price: "75c",
-      lowestIlvl: 83,
-    },
-  ]);
+  // Fetches the stash
+  const fetchStash = () => {
+    const currentTab = props.activeTab;
+    window.api.send('fetchStash', currentTab);
+    window.api.receive('fetchStash', (itemArray) => {
+      setTableData(itemArray[props.activeTab.toLowerCase()]);
+    });
+  };
 
   // Uses the saved values from Table component and fills the inputs with those values.
   const fillInputs = (data) => {
@@ -71,29 +56,9 @@ function LeagueTab(params) {
       const updatedTableData = [...tableData];
       updatedTableData[index] = updatedData;
       setAnimate(checkHigherOrLower(tableData, updatedData));
-      setTableData(cleanNewData(updatedTableData));
+      setTableData(updatedTableData);
     }
   };
-
-  // Sets the networth to allow for easy updating.
-  const [networth, setNetworth] = useState("Networth: ERROR");
-
-  // Calculates the networth of the table items.
-  useEffect(() => {
-    let chaosTotal = 0;
-    let divineTotal = 0.0;
-    for (let item of tableData) {
-      const itemTotal = parseInt(item.amount) * parseInt(item.price);
-      chaosTotal += itemTotal;
-    }
-    divineTotal = chaosTotal / divineOrbPrice;
-    const divineRemainder = divineTotal - Math.floor(divineTotal);
-    setNetworth(
-      `Networth: ${chaosTotal} (${parseInt(divineTotal)} Divines + ${parseInt(
-        divineOrbPrice * divineRemainder
-      )} Chaos) Divine Orb: ${divineOrbPrice}c`
-    );
-  }, [tableData]);
 
   // Selects the text in the clicked input.
   const selectValues = (e) => {
@@ -112,21 +77,14 @@ function LeagueTab(params) {
     }
   };
 
-  // Fetches the stash
-  const fetchStash = () => {
-    const currentTab = params.activeTab;
-    window.api.send("fetchStash", currentTab);
-  };
-
   return (
     <div className="tab-content">
       <div className="top-container">
         <div className="left-container">
           <Table
-            onDataReceived={fillInputs}
             data={tableData}
+            onDataReceived={fillInputs}
             animate={animate}
-            animationEnd={animationEnd}
             updateTable={updateTable}
           />
           <div id="input-container" ref={inputRef}>

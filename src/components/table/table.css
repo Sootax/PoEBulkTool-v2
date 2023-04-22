@@ -10,17 +10,27 @@
   border: 1px solid rgba(177, 177, 177, 0.288);
 }
 
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgb(27, 27, 27);
+}
+
 thead tr {
   display: flex;
   margin: 5px;
+  margin-bottom: 0;
   gap: 5px;
   font-size: 16px;
 }
 
 tbody tr {
   display: flex;
+  height: 40px;
   margin-left: 5px;
   margin-right: 5px;
+  margin-top: 5px;
   border-radius: 5px;
   margin-bottom: 5px;
   background: #1d1d1d;
@@ -35,6 +45,17 @@ tbody tr:hover {
 
 .th-name {
   width: 70%;
+  padding: 10px;
+  background: #0f0f0f;
+  border-radius: 5px;
+  user-select: none;
+  resize: horizontal;
+  cursor: pointer;
+  border: 1px solid rgba(177, 177, 177, 0);
+}
+
+.th-title {
+  width: 100%;
   padding: 10px;
   background: #0f0f0f;
   border-radius: 5px;

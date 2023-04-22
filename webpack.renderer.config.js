@@ -15,8 +15,8 @@ module.exports = {
     alias: {
       Components: path.resolve(__dirname, "src/components"),
       Utilities: path.resolve(__dirname, "src/utilities"),
-      Helpers: path.resolve(__dirname, "src/helpers"),
       Json: path.resolve(__dirname, "src/json"),
+      Functions: path.resolve(__dirname, "src/functions"),
     },
     extensions: [".js", ".jsx", ".json"],
   },
