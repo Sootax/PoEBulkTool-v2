@@ -117,11 +117,11 @@ ipcMain.on("fetchStash", async (event, data) => {
   } else if (data === "Compasses") {
     tabIndex = config.compassTab;
   }
-  // const generatedConfig = generateStashConfig(config, tabIndex);
-  // const stashData = await fetchStash(generatedConfig);
-  // const poeNinjaPrices = await fetchPoeNinjaPrices(generatedConfig.leagueName);
-  // const tftPrices = await fetchTftPrices();
-  // const finalItemArray = filterStash(stashData, tftPrices);
-  // fs.writeFileSync('finalItemArray.json', JSON.stringify(finalItemArray, null, 4))
+  const generatedConfig = generateStashConfig(config, tabIndex);
+  const stashData = await fetchStash(generatedConfig);
+  const poeNinjaPrices = await fetchPoeNinjaPrices(generatedConfig.leagueName);
+  const tftPrices = await fetchTftPrices();
+  const finalItemArray = filterStash(stashData, tftPrices);
+  fs.writeFileSync('finalItemArray.json', JSON.stringify(finalItemArray, null, 4))
   event.reply('fetchStash', finalItemArray)
 });

@@ -1,9 +1,9 @@
-import itemCategories from 'Json/itemCategories.json'
+import itemCategories from 'Json/itemCategories.json';
 import compassNames from 'Json/compassNameChange.json';
 
 function filterStash(stashData, tftPrices) {
-  const finalItemArray = getItemCategoryDetails(stashData, tftPrices)
-  return finalItemArray
+  const finalItemArray = getItemCategoryDetails(stashData, tftPrices);
+  return finalItemArray;
 }
 
 function getItemCategoryDetails(stashData, tftPrices) {
@@ -14,107 +14,148 @@ function getItemCategoryDetails(stashData, tftPrices) {
   let heistCurrency = [];
   let compassesCompasses = [];
   for (let item of stashData.items) {
-    if (item.baseType.includes("Compass")) {
+    if (item.baseType.includes('Compass')) {
       if (verifyUses(item)) {
         const itemName = changeCompassName(item);
         const itemIlvl = item.ilvl;
         const itemPrice = getItemPrice(tftPrices, itemName);
-        compassesCompasses.push({ name: itemName, ilvl: itemIlvl, price: itemPrice });
+        compassesCompasses.push({
+          name: itemName,
+          ilvl: itemIlvl,
+          price: itemPrice,
+        });
       }
-    } else if (item.baseType.includes("Logbook")) {
+    } else if (item.baseType.includes('Logbook')) {
       const itemName = getBestFaction(item, tftPrices);
       const itemIlvl = item.ilvl;
       const itemPrice = getItemPrice(tftPrices, itemName);
-      console.log(`---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`);
-      expeditionLogbooks.push({ name: itemName, ilvl: itemIlvl, price: itemPrice });
-    } else if (item.baseType.includes("Contract")) {
+      console.log(
+        `---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`
+      );
+      expeditionLogbooks.push({
+        name: itemName,
+        ilvl: itemIlvl,
+        price: itemPrice,
+        category: 'logbook',
+      });
+    } else if (item.baseType.includes('Contract')) {
       const itemName = getContractName(item);
       const itemIlvl = item.ilvl;
       const itemPrice = getItemPrice(tftPrices, itemName);
-      console.log(`---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`);
-      heistContracts.push({ name: itemName, ilvl: itemIlvl, price: itemPrice });
-    } else if (item.baseType.includes("Blueprint")) {
+      console.log(
+        `---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`
+      );
+      heistContracts.push({
+        name: itemName,
+        ilvl: itemIlvl,
+        price: itemPrice,
+        category: 'contract',
+      });
+    } else if (item.baseType.includes('Blueprint')) {
       if (verifyWingsNotRevealed(item)) {
         const itemName = changeBlueprintName(item, tftPrices);
         const itemIlvl = item.ilvl;
         const itemPrice = getItemPrice(tftPrices, itemName);
-        console.log(`---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`);
-        heistBlueprints.push({ name: itemName, ilvl: itemIlvl, price: itemPrice });
+        console.log(
+          `---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`
+        );
+        heistBlueprints.push({
+          name: itemName,
+          ilvl: itemIlvl,
+          price: itemPrice,
+          category: 'blueprint',
+        });
       }
     } else if (itemCategories.expedition.currency.includes(item.baseType)) {
       const itemName = item.baseType;
       const itemIlvl = item.ilvl;
       const itemPrice = getItemPrice(tftPrices, itemName);
-      const itemStackSize = getCurrencyStackSize(item)
-      console.log(`---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`);
-      expeditionCurrency.push({ name: itemName, ilvl: itemIlvl, price: itemPrice, stackSize: itemStackSize});
+      const itemStackSize = getCurrencyStackSize(item);
+      console.log(
+        `---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`
+      );
+      expeditionCurrency.push({
+        name: itemName,
+        ilvl: itemIlvl,
+        price: itemPrice,
+        stackSize: itemStackSize,
+        category: 'currency',
+      });
     } else if (itemCategories.heist.currency.includes(item.baseType)) {
       const itemName = `${item.baseType}s`;
       const itemIlvl = item.ilvl;
       const itemPrice = getItemPrice(tftPrices, itemName);
-      const itemStackSize = getCurrencyStackSize(item)
-      console.log(`---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`);
-      heistCurrency.push({ name: itemName, ilvl: itemIlvl, price: itemPrice, stackSize: itemStackSize});
+      const itemStackSize = getCurrencyStackSize(item);
+      console.log(
+        `---Item Details---\nName: ${itemName}\nPrice: ${itemPrice}\nIlvl: ${itemIlvl}\n`
+      );
+      heistCurrency.push({
+        name: itemName,
+        ilvl: itemIlvl,
+        price: itemPrice,
+        stackSize: itemStackSize,
+        category: 'currency',
+      });
     }
   }
   return {
     heist: {
       contracts: getItemAmount(heistContracts),
       blueprints: getItemAmount(heistBlueprints),
-      currency: getItemAmountCurrency(heistCurrency)
+      currency: getItemAmountCurrency(heistCurrency),
     },
     expedition: {
       logbooks: getItemAmount(expeditionLogbooks),
-      currency: getItemAmountCurrency(expeditionCurrency)
+      currency: getItemAmountCurrency(expeditionCurrency),
     },
     compasses: {
-      compasses: getItemAmount(compassesCompasses) 
-    }
-  }
+      compasses: getItemAmount(compassesCompasses),
+    },
+  };
 }
 
 // Gets the lowest ilvl of the itemArray.
 function getLowestIlvl(itemArray) {
-  return itemArray.reduce((prev, curr) => prev.ilvl < curr.ilvl ? prev : curr).ilvl
-};
+  return itemArray.reduce((prev, curr) => (prev.ilvl < curr.ilvl ? prev : curr))
+    .ilvl;
+}
 
 // Merges the itemArray to contain no duplicates while getting the amount and lowest ilvl for currency.
 function getItemAmountCurrency(itemArray) {
   let reducedItemArray = itemArray.reduce((accumulator, current) => {
-    const matchingItem = accumulator.find((item) => item.name === current.name)
+    const matchingItem = accumulator.find((item) => item.name === current.name);
     if (!matchingItem) {
-      current.ilvl = getLowestIlvl(itemArray)
-      current.amount = current.stackSize || 1
-      accumulator.push(current)
+      current.ilvl = getLowestIlvl(itemArray);
+      current.amount = current.stackSize || 1;
+      accumulator.push(current);
     } else {
-      matchingItem.amount += current.stackSize || 1
+      matchingItem.amount += current.stackSize || 1;
     }
-    return accumulator
+    return accumulator;
   }, []);
   reducedItemArray = reducedItemArray.map(({ stackSize, ...rest }) => rest);
-  return reducedItemArray
+  return reducedItemArray;
 }
-
 
 // Merges the itemArray to contain no duplicates while getting the amount and lowest ilvl.
 function getItemAmount(itemArray) {
   const reducedItemArray = itemArray.reduce((accumulator, current) => {
-    const matchingItem = accumulator.find((item) => item.name === current.name)
+    const matchingItem = accumulator.find((item) => item.name === current.name);
     if (!matchingItem) {
-      current.ilvl = getLowestIlvl(itemArray)
-      current.amount = 1
-      accumulator.push(current)
+      current.ilvl = getLowestIlvl(itemArray);
+      current.amount = 1;
+      accumulator.push(current);
     } else {
-      matchingItem.amount += 1
+      matchingItem.amount += 1;
     }
-    return accumulator
+    return accumulator;
   }, []);
-  return reducedItemArray
-};
+  return reducedItemArray;
+}
 
-// Gest the currency amount.
+// Gets the currency amount.
 function getCurrencyStackSize(item) {
-  return parseInt(item.properties[0].values[0][0].match(/\d*/)[0])
+  return parseInt(item.properties[0].values[0][0].match(/\d*/)[0]);
 }
 
 // Changes the blueprint name based on TFT naming scheme.
@@ -138,7 +179,7 @@ function getItemPrice(tftPrices, itemName) {
   for (let category in tftPrices) {
     for (let tftItem of tftPrices[category].data) {
       if (itemName === tftItem.name) {
-        return tftItem.chaos
+        return tftItem.chaos;
       }
     }
   }
@@ -156,7 +197,7 @@ function getBestFaction(item, tftPrices) {
       }
       return accumulator;
     },
-    { name: "", price: 0 }
+    { name: '', price: 0 }
   ).name;
   return bestFaction;
 }
@@ -181,7 +222,7 @@ function verifyWingsNotRevealed(item) {
 
 // Verifies that the compass is 4 uses.
 function verifyUses(item) {
-  if (item.enchantMods.includes("4 uses remaining")) {
+  if (item.enchantMods.includes('4 uses remaining')) {
     return true;
   }
 }

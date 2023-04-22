@@ -5,48 +5,56 @@
                 "name": "Trap Disarmament",
                 "ilvl": 82,
                 "price": 1,
+                "category": "contract",
                 "amount": 2
             },
             {
                 "name": "Agility",
                 "ilvl": 82,
                 "price": 1,
+                "category": "contract",
                 "amount": 2
             },
             {
                 "name": "Perception",
                 "ilvl": 82,
                 "price": 3,
+                "category": "contract",
                 "amount": 4
             },
             {
                 "name": "Deception",
                 "ilvl": 82,
                 "price": 9,
+                "category": "contract",
                 "amount": 2
             },
             {
                 "name": "Lockpicking",
                 "ilvl": 82,
                 "price": 2,
+                "category": "contract",
                 "amount": 2
             },
             {
                 "name": "Demolition",
                 "ilvl": 82,
                 "price": 1,
+                "category": "contract",
                 "amount": 3
             },
             {
                 "name": "Engineering",
                 "ilvl": 82,
                 "price": 1,
+                "category": "contract",
                 "amount": 2
             },
             {
                 "name": "Brute Force",
                 "ilvl": 82,
                 "price": 1,
+                "category": "contract",
                 "amount": 1
             }
         ],
@@ -55,12 +63,14 @@
                 "name": "Trinkets or Currency",
                 "ilvl": 83,
                 "price": 5,
+                "category": "blueprint",
                 "amount": 1
             },
             {
                 "name": "Replicas or Experimented Items",
                 "ilvl": 83,
                 "price": 15,
+                "category": "blueprint",
                 "amount": 1
             }
         ],
@@ -68,7 +78,8 @@
             {
                 "name": "Rogue's Markers",
                 "ilvl": 0,
-                "price": 31,
+                "price": 32,
+                "category": "currency",
                 "amount": 142130
             }
         ]
@@ -79,12 +90,14 @@
                 "name": "Order of the Chalice",
                 "ilvl": 83,
                 "price": 15,
+                "category": "logbook",
                 "amount": 9
             },
             {
                 "name": "Druids of the Broken Circle",
                 "ilvl": 83,
                 "price": 10,
+                "category": "logbook",
                 "amount": 10
             }
         ],
@@ -93,12 +106,14 @@
                 "name": "Scrap Metal",
                 "ilvl": 0,
                 "price": 1,
+                "category": "currency",
                 "amount": 182
             },
             {
                 "name": "Astragali",
                 "ilvl": 0,
                 "price": 1,
+                "category": "currency",
                 "amount": 21
             }
         ]

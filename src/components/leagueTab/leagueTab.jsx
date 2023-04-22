@@ -3,17 +3,24 @@ import React, { useState, useRef, useEffect } from 'react';
 import Table from 'Components/table/table.jsx';
 import UpdateButton from 'Utilities/UpdateButton.jsx';
 import FetchButton from 'Utilities/fetchButton.jsx';
+
 import finalItemArray from 'Json/finalItemArray.json';
+import poeNinjaPrices from 'Json/poeNinjaPrices.json';
+
 import calculateNetWorth from 'Functions/calculateNetWorth.js'
 import concatTableData from 'Functions/concatTableData.js';
 import checkHigherOrLower from 'Functions/checkHigherOrLower.js';
+import createDiscordString from 'Functions/createDiscordString.js';
+import getDivinePrice from 'Functions/getDivinePrice.js';
+
 import './leagueTab.css';
 
 function LeagueTab(props) {
-  // Temporary Divine Orb price.
-  const [divinePrice, setDivinePrice] = useState(180);
+  const [ign, setIgn] = useState(null)
   const [tableData, setTableData] = useState(concatTableData(finalItemArray[props.activeTab.toLowerCase()]))
-  const [networth, setNetworth] = useState(calculateNetWorth(finalItemArray, divinePrice))
+  const [divinePrice, setDivinePrice] = useState(getDivinePrice(poeNinjaPrices));
+  const [networth, setNetworth] = useState(calculateNetWorth(tableData, divinePrice))
+  const [discordString, setDiscordString] = useState(createDiscordString(tableData, divinePrice, ign))
   
   // Makes a reference of the input element container.
   const inputRef = useRef(null);
@@ -35,10 +42,12 @@ function LeagueTab(props) {
     childInputs[2].value = data.price;
   };
 
-  // Removes the animation when it ends.
-  const animationEnd = () => {
-    setAnimate({ index: 1, color: "" });
-  };
+  useEffect(() => {
+    window.api.send("getConfig", "renderer");
+    window.api.receive("getConfig", (newConfig) => {
+      setIgn(newConfig.characterName)
+    });
+  }, []);
 
   // Used in triggering animation for table rows.
   const [animate, setAnimate] = useState({ index: 1, color: "" });
@@ -57,6 +66,8 @@ function LeagueTab(props) {
       updatedTableData[index] = updatedData;
       setAnimate(checkHigherOrLower(tableData, updatedData));
       setTableData(updatedTableData);
+      setNetworth(calculateNetWorth(updatedTableData, divinePrice))
+      setDiscordString(createDiscordString(updatedTableData, divinePrice))
     }
   };
 
@@ -97,7 +108,7 @@ function LeagueTab(props) {
             <FetchButton onClick={fetchStash} />
           </div>
         </div>
-        <div className="right-container">Right Container</div>
+        <div className="right-container">{discordString}</div>
       </div>
       <div className="bottom-container">
         <div className="bottom-info-bar">{networth}</div>
