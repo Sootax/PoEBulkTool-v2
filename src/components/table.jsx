@@ -1,17 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TableItem from 'Components/tableItem'
 import { AiFillCaretRight, AiFillCaretLeft, AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
 
-export default function Table ({ data, handleItemUpdate, activeCategory, handleCategoryChange, handleDataUpdate }) {
+export default function Table ({ categoryData, handleItemUpdate, activeCategory, handleCategoryChange, handleDataUpdate }) {
   const columns = [
     { name: 'Name', style: 'w-3/5 justify-start rounded-l-lg' },
     { name: 'Amount', style: 'w-1/5 justify-center' },
     { name: 'Price', style: 'w-1/5 justify-center rounded-r-lg' }
   ]
-
-  useEffect(() => { console.log(data) }, [data])
 
   const previousItem = () => {
     handleCategoryChange('prev')
@@ -40,8 +38,8 @@ export default function Table ({ data, handleItemUpdate, activeCategory, handleC
       setSortOrders(newSortOrders)
       const newData = {}
 
-      for (const category in data) {
-        newData[category] = data[category].slice().sort((a, b) => {
+      for (const category in categoryData) {
+        newData[category] = categoryData[category].slice().sort((a, b) => {
           if (a[key] < b[key]) {
             return sortOrders[key] === 'asc' ? -1 : 1
           }
@@ -54,6 +52,12 @@ export default function Table ({ data, handleItemUpdate, activeCategory, handleC
 
       handleDataUpdate(newData)
     }
+  }
+
+  if (!categoryData) {
+    return (
+      <div className='bg-neutral-800'></div>
+    )
   }
 
   const tableHeaders = columns.map((column) => {
@@ -80,9 +84,9 @@ export default function Table ({ data, handleItemUpdate, activeCategory, handleC
     )
   })
 
-  const tableContent = Object.keys(data).map((category) => {
+  const tableContent = Object.keys(categoryData).map((category) => {
     const categoryName = category[0].toUpperCase() + category.slice(1)
-    const categoryItems = data[category].map((item, index) => {
+    const categoryItems = categoryData[category].map((item, index) => {
       return (
         <TableItem key={item.name} item={item} columns={columns} index={index} handleItemUpdate={handleItemUpdate} />
       )

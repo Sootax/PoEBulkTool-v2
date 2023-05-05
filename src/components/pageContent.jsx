@@ -4,9 +4,9 @@ import BulkSell from 'Components/bulkSell'
 import Settings from 'Components/settings'
 import CompassSniper from 'Components/compassSniper'
 
-export default function PageContent ({ allTableData, clickedTab, updateData, isFetching }) {
+export default function PageContent ({ clickedTab, updateData }) {
   const definedNavbarItems = [
-    { name: 'Bulk Sell', component: () => <BulkSell allTableData={allTableData} updateData={updateData} isFetching={isFetching} /> },
+    { name: 'Bulk Sell', component: () => <BulkSell updateData={updateData} /> },
     { name: 'Compass Sniper', component: () => <CompassSniper /> },
     { name: 'Settings', component: () => <Settings /> }
   ]

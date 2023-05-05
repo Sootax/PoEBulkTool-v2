@@ -5,23 +5,23 @@ import { BsCurrencyDollar } from 'react-icons/bs'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { IconContext } from 'react-icons'
 
-export default function Networth ({ data, handleClick, isFetching, resetTableData }) {
+export default function Networth ({ categoryData, handleClick, isFetching, resetTableData }) {
   const [currencyType, setCurrencyType] = useState('chaos')
-  const [networth, setNetworth] = useState(calculateNetWorth(data, 185, 'chaos'))
+  const [networth, setNetworth] = useState(calculateNetWorth(categoryData, 185, 'chaos'))
 
   const changeCurrencyType = () => {
     switch (currencyType) {
       case 'chaos':
         setCurrencyType('divine')
-        setNetworth(calculateNetWorth(data, 185, 'divine'))
+        setNetworth(calculateNetWorth(categoryData, 185, 'divine'))
         break
       case 'divine':
         setCurrencyType('hybrid')
-        setNetworth(calculateNetWorth(data, 185, 'hybrid'))
+        setNetworth(calculateNetWorth(categoryData, 185, 'hybrid'))
         break
       case 'hybrid':
         setCurrencyType('chaos')
-        setNetworth(calculateNetWorth(data, 185, 'chaos'))
+        setNetworth(calculateNetWorth(categoryData, 185, 'chaos'))
         break
       default:
         break
@@ -29,8 +29,8 @@ export default function Networth ({ data, handleClick, isFetching, resetTableDat
   }
 
   useEffect(() => {
-    setNetworth(calculateNetWorth(data, 185, currencyType))
-  }, [data])
+    setNetworth(calculateNetWorth(categoryData, 185, currencyType))
+  }, [categoryData])
 
   return (
     <div className='flex flex-row'>
@@ -54,7 +54,7 @@ export default function Networth ({ data, handleClick, isFetching, resetTableDat
           : 'Fetch Stash'
         }
       </button>
-      <button className='bg-neutral-800 m-1 ml-0 text-neutral-600 font-semibold text-lg rounded-lg w-2/6 hover:bg-neutral-700 transition-all hover:text-white select-none' onClick={resetTableData}>Reset</button>
+      <button className='bg-neutral-800 m-1 ml-0 text-neutral-600 font-semibold text-lg rounded-lg w-2/6 hover:bg-neutral-700 transition-all hover:text-white select-none' onClick={resetTableData}>Reset Table</button>
     </div>
   )
 }
