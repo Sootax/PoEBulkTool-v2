@@ -9,7 +9,7 @@
     "package": "cross-env NODE_ENV=production electron-forge package",
     "make": "cross-env NODE_ENV=production electron-forge make",
     "publish": "cross-env NODE_ENV=production electron-forge publish",
-    "lint": "npx prettier --write . --print-width 120"
+    "lint": "npx eslint --fix *"
   },
   "keywords": [],
   "author": {
@@ -28,22 +28,33 @@
     "@electron-forge/plugin-webpack": "^6.1.0",
     "@electron-forge/publisher-github": "^6.1.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "autoprefixer": "^10.4.14",
     "babel-loader": "^9.1.2",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
     "dotenv": "^16.0.3",
     "electron": "23.2.1",
+    "eslint": "^8.39.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
     "node-loader": "^2.0.0",
-    "prettier": "^2.8.7",
-    "style-loader": "^3.3.2"
+    "postcss": "^8.4.23",
+    "postcss-loader": "^7.2.4",
+    "style-loader": "^3.3.2",
+    "tailwindcss": "^3.3.1"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.8.5",
     "easy-table": "^1.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.1.0",
     "form-data": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
     "update-electron-app": "^2.0.1"
   }
 }

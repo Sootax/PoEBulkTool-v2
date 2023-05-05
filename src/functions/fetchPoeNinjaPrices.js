@@ -1,26 +1,26 @@
-const fs = require("fs");
-import fetch from "node-fetch";
+import fetch from 'node-fetch'
+const fs = require('fs')
 
-async function fetchPoeNinjaPrices(league) {
-  const url = "https://poe.ninja/api/data/CurrencyOverview?";
+async function fetchPoeNinjaPrices (league) {
+  const url = 'https://poe.ninja/api/data/CurrencyOverview?'
   const params = new URLSearchParams([
-    ["league", league],
-    ["type", "Currency"],
-    ["language", "en"],
-  ]);
+    ['league', league],
+    ['type', 'Currency'],
+    ['language', 'en']
+  ])
 
-  let itemPrices = await fetch(url + params.toString(), {
-    method: "GET",
+  const itemPrices = await fetch(url + params.toString(), {
+    method: 'GET'
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log("Received prices from poe.ninja");
-      return data;
+      console.log('Received prices from poe.ninja')
+      return data
     })
     .catch((error) => {
-      console.error(error);
-    });
-  return itemPrices;
+      console.error(error)
+    })
+  return itemPrices
 }
 
-export default fetchPoeNinjaPrices;
+export default fetchPoeNinjaPrices

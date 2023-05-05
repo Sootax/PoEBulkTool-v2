@@ -4,57 +4,57 @@
             {
                 "name": "Trap Disarmament",
                 "ilvl": 82,
-                "price": 1,
-                "category": "contract",
+                "price": 2,
+                "category": "contracts",
                 "amount": 2
             },
             {
                 "name": "Agility",
                 "ilvl": 82,
-                "price": 1,
-                "category": "contract",
+                "price": 2,
+                "category": "contracts",
                 "amount": 2
             },
             {
                 "name": "Perception",
                 "ilvl": 82,
-                "price": 3,
-                "category": "contract",
+                "price": 2,
+                "category": "contracts",
                 "amount": 4
             },
             {
                 "name": "Deception",
                 "ilvl": 82,
-                "price": 9,
-                "category": "contract",
+                "price": 8,
+                "category": "contracts",
                 "amount": 2
             },
             {
                 "name": "Lockpicking",
                 "ilvl": 82,
                 "price": 2,
-                "category": "contract",
+                "category": "contracts",
                 "amount": 2
             },
             {
                 "name": "Demolition",
                 "ilvl": 82,
-                "price": 1,
-                "category": "contract",
+                "price": 2,
+                "category": "contracts",
                 "amount": 3
             },
             {
                 "name": "Engineering",
                 "ilvl": 82,
-                "price": 1,
-                "category": "contract",
+                "price": 2,
+                "category": "contracts",
                 "amount": 2
             },
             {
                 "name": "Brute Force",
                 "ilvl": 82,
-                "price": 1,
-                "category": "contract",
+                "price": 2,
+                "category": "contracts",
                 "amount": 1
             }
         ],
@@ -62,15 +62,17 @@
             {
                 "name": "Trinkets or Currency",
                 "ilvl": 83,
-                "price": 5,
-                "category": "blueprint",
+                "price": 8,
+                "wings": 3,
+                "category": "blueprints",
                 "amount": 1
             },
             {
                 "name": "Replicas or Experimented Items",
                 "ilvl": 83,
-                "price": 15,
-                "category": "blueprint",
+                "price": 10,
+                "wings": 3,
+                "category": "blueprints",
                 "amount": 1
             }
         ],
@@ -90,14 +92,14 @@
                 "name": "Order of the Chalice",
                 "ilvl": 83,
                 "price": 15,
-                "category": "logbook",
+                "category": "logbooks",
                 "amount": 9
             },
             {
                 "name": "Druids of the Broken Circle",
                 "ilvl": 83,
                 "price": 10,
-                "category": "logbook",
+                "category": "logbooks",
                 "amount": 10
             }
         ],
@@ -123,19 +125,22 @@
             {
                 "name": "Unidentified Map",
                 "ilvl": 20,
-                "price": 4,
+                "price": 7,
+                "category": "compasses",
                 "amount": 1
             },
             {
                 "name": "Blue Plants",
                 "ilvl": 20,
-                "price": 50,
+                "price": 67,
+                "category": "compasses",
                 "amount": 1
             },
             {
                 "name": "Magic Pack Size",
                 "ilvl": 20,
-                "price": 5,
+                "price": 7,
+                "category": "compasses",
                 "amount": 2
             }
         ]

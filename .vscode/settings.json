@@ -4,6 +4,7 @@
     "Chayula",
     "descr",
     "Einhar",
+    "fmkadmapgofadopljbjfkapdkoienihi",
     "Graverobber",
     "Logfile",
     "Metamorph",
@@ -14,6 +15,14 @@
     "Pricesexpedition",
     "Pricesheist",
     "Softcore",
+    "tailwindcss",
+    "tanstack",
     "Xoph"
-  ]
+  ],
+  "files.associations": {
+    ".css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  }
 }

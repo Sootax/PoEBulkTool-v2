@@ -1,30 +1,30 @@
-const fs = require("fs");
-import fetch from "node-fetch";
+import fetch from 'node-fetch'
+const fs = require('fs')
 
-async function fetchTftPrices() {
+async function fetchTftPrices () {
   const urls = {
-    compasses: "https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-compasses.json",
-    expedition: "https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-expedition.json",
-    heist: "https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-heist.json",
-  };
+    compasses: 'https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-compasses.json',
+    expedition: 'https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-expedition.json',
+    heist: 'https://raw.githubusercontent.com/The-Forbidden-Trove/tft-data-prices/master/lsc/bulk-heist.json'
+  }
 
-  let data = {};
+  const data = {}
 
   for (const [category, url] of Object.entries(urls)) {
-    let priceData = await fetch(url, {
-      method: "GET",
+    const priceData = await fetch(url, {
+      method: 'GET'
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Received prices from TFT ${category}`);
-        return data;
+        console.log(`Received prices from TFT ${category}`)
+        return data
       })
       .catch((error) => {
-        console.error(error);
-      });
-    data[category] = priceData;
+        console.error(error)
+      })
+    data[category] = priceData
   }
-  return data;
+  return data
 }
 
-export default fetchTftPrices;
+export default fetchTftPrices

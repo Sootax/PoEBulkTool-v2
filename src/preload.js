@@ -1,18 +1,18 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer } = require('electron')
 
-contextBridge.exposeInMainWorld("api", {
+contextBridge.exposeInMainWorld('api', {
   send: (channel, data) => {
-    let validChannels = ["getConfig", "setConfig", "fetchStash"];
+    const validChannels = ['getConfig', 'setConfig', 'fetchStash', 'readStash']
     if (validChannels.includes(channel)) {
-      ipcRenderer.send(channel, data);
+      ipcRenderer.send(channel, data)
     }
   },
   receive: (channel, func) => {
-    let validChannels = ["getConfig", "fetchStash"];
+    const validChannels = ['getConfig', 'fetchStash', 'readStash']
     if (validChannels.includes(channel)) {
-      ipcRenderer.on(channel, (event, ...args) => func(...args));
+      ipcRenderer.on(channel, (event, ...args) => func(...args))
     }
-  },
-});
+  }
+})
